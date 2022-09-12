@@ -21,9 +21,14 @@ class CityRepo extends ChangeNotifier{
 
 }
 
-final cityProvider = ChangeNotifierProvider((ref) {
+final ChangeNotifierProvider<CityRepo> cityProvider = ChangeNotifierProvider((ref) {
 
   return CityRepo(ref.watch(converterProvider));
-},);
+},
+);
 
-final cityListProvider = FutureProvider((ref) => ref.watch(cityProvider).getAll());
+final FutureProvider<List<City>> cityListProvider = FutureProvider( (ref)  async{
+  return ref.read(converterProvider).cityDecoder();
+
+}
+);

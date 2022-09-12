@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trevalapp/models/places.dart';
 import 'package:trevalapp/pages/detail_page.dart';
 import 'package:trevalapp/repos/cities_repo.dart';
-
 import '../models/cities.dart';
 import '../repos/place_repo.dart';
+
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -17,98 +18,90 @@ class MainPage extends StatelessWidget {
 }
 
 class Places extends ConsumerStatefulWidget {
+   Places({Key? key}) : super(key: key);
   City? city;
 
-   Places({
-    Key? key,
-  }) : super(key: key);
-
-   @override
+  @override
   ConsumerState<Places> createState() => _PlacesState();
-
 }
-class _PlacesState extends ConsumerState<Places> {
 
+class _PlacesState extends ConsumerState<Places> {
   @override
   Widget build(BuildContext context) {
-    final citiesRepo = ref.watch(cityProvider);
-    final placesRepo = ref.watch(placeProvider);
+    AsyncValue<List<City>> cities = ref.watch(cityListProvider);
+    AsyncValue<List<Place>> places = ref.watch(placeListProvider);
 
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Treval App'),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-       children: [
-        DropdownButton(
-            items: citiesRepo.cities.map((City city) {
-              return DropdownMenuItem(
-                value: city,
-                child: Text(city.name),
-              );
-            }).toList(),
-            onChanged: (City? value) {
-              setState(() {
-                widget.city = value;
-              });
-            },
+    return SafeArea(
+      child: Scaffold(
+        appBar:AppBar(
+          title: const Text('Travel App'),
+          centerTitle: true,
         ),
-        Expanded(
-          child: Consumer(
-            builder: (context, ref, child) {
-              final AsyncValue<List<Place>> places = ref.watch(placeListProvider);
-              return places.when(
-                  data: (places) {
-                    return ListView.builder(
-                      itemCount: places.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(places[index].name),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PlaceDetail(
-                                  place: places[index],
-                                ),
-                              ),
-                            );
-                          },
+        body: Center(
+          child: Column(
+            children: [
+             DropdownButton<City>(
+               value: widget.city,
+               items: cities.when(
+                   data: (List<City> data) {
+                 List<DropdownMenuItem<City>> item = data.map((City city) {
+                   return DropdownMenuItem<City>(
+                     value: city,
+                     child: Text(city.name),
+                   );
+                 }).toList();
+                 return item;
+               },
+                   loading: () => [],
+                    error: (error, stack) => []),
+               onChanged: (City? value) {
+                 setState(() {
+                   widget.city = value;
+                 });
+               }
+             ),
+              Expanded(
+                child: places.when(
+                    data: (List<Place> data) {
+                  return ListView.builder(
+                      itemCount: data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          children: [
+                            ListTile(
+                              title: Text(data[index].name.trim()),
+                              subtitle: Text(data[index].location.trim()),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => PlaceDetail(
+                                              place: data[index],
+                                            )));
+                              },
+                            ),
+                            const Divider(
+                              height: 2,
+                            )
+                          ],
                         );
-                      },
-                    );
-                  },
-                  loading: () => const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  error: (error, stack) => const Center(
-                    child: Text('Error'),
-                  ));
-            },
+                      });
+                },
+                    loading: () => const Center(child: CircularProgressIndicator()),
+                    error: (error, stack) => Center(child: Text(error.toString()))),
+              )
+
+            ],
           ),
         ),
-        ],
       ),
     );
 
   }
 }
-class PlaceRow extends ConsumerWidget {
-  final Place place;
-  const PlaceRow(this.place, {Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ListTile(
-      title: Text(place.name),
-      subtitle: Text(place.location),
 
-    );
-  }
-}
+
 
 
 
