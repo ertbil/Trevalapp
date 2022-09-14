@@ -14,7 +14,7 @@ class Converter {
         final Map<String, dynamic> data = json.decode(response);
         final List<City> cities = [];
         for (int i = 0; i < data.length; i++) {
-          City city = City.fromJson(data, i+1);
+          City city = City.fromJson(data,i);
           cities.add(city);
         }
         return cities;
@@ -30,11 +30,10 @@ class Converter {
          final Map<String, dynamic> data = json.decode(response);
          final List<Place> places = [];
          var keys = data.keys.toList();
-         var values = data.values.toList();
-         for (int i = 0; i < data.length; i++) {
-           Place place = Place.fromJson(keys[i], values[i]);
+          for (int i = 0; i < data.length; i++) {
+            Place place = Place.fromJson(data, keys[i]);
             places.add(place);
-         }
+          }
 
          return places;
        } else {
