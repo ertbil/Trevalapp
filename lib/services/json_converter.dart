@@ -31,8 +31,15 @@ class Converter {
          final List<Place> places = [];
          var keys = data.keys.toList();
           for (int i = 0; i < data.length; i++) {
-            Place place = Place.fromJson(data, keys[i]);
-            places.add(place);
+            if(data[keys[i]]['name'] == null) {
+              continue;
+            }
+            try {
+              Place place = Place.fromJson(data, keys[i]);
+              places.add(place);
+            } catch (e) {
+              print(e);
+            }
           }
 
          return places;

@@ -34,12 +34,12 @@ class Place {
       this.content);
 
   Place.fromJson(Map<String, dynamic> json, String key)
-      : slug = json[key]['slug']??"Unknown",
-        name = json[key]['name']??'Unknown',
+      : slug = json[key]['slug'] ?? "Unknown",
+        name = json[key]['name'] ?? 'Unknown',
         location = json[key]['city_name']??'Unknown',
-        image = json[key]['preview_image'] != null?baseURL+ json[key]['preview_image']:"Image not found",
-        type = json[key]['detaylar'] != null ? json[key]['detaylar']["Tür"] ?? "Unknown":'Unknown',
-        tourismType = json[key]['detaylar'] != null ?json[key]['detaylar']["Turizm Türü"]??'Unknown':'Unknown',
+        image = json[key]['preview_image'] != null ? baseURL+ json[key]['preview_image'] : "Image not found",
+        type = json[key]['detaylar'] != null ? json[key]['detaylar']["Tür"] ?? "Unknown" : 'Unknown',
+        tourismType = json[key]['detaylar'] != null ? json[key]['detaylar']["Turizm Türü"]??'Unknown':'Unknown',
         adress = json[key]['detaylar'] != null ? json[key]['detaylar']["Adres"] ?? 'Unknown' : 'Unknown',
         directions = json[key]['detaylar'] != null ? json[key]['detaylar']["Nasıl Gidilir"] ?? 'Unknown':'Unknown',
         sourceURL = json[key]['source_url'] != null ? baseURL+json[key]['source_url'] : "Source not found",
