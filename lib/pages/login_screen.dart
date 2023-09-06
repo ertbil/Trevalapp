@@ -10,7 +10,6 @@ class LogInPage extends StatefulWidget {
 }
 
 class _LogInPageState extends State<LogInPage> {
-
   @override
   void initState() {
     super.initState();
@@ -18,8 +17,6 @@ class _LogInPageState extends State<LogInPage> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold();
   }
 }

@@ -23,12 +23,16 @@ class UserDrawer extends StatelessWidget {
               children: const [
                 CircleAvatar(
                   radius: 40,
-                  child: Icon(Icons.person, size: 50,),
+                  child: Icon(
+                    Icons.person,
+                    size: 50,
+                  ),
                 ),
                 SizedBox(
                   height: 10,
                 ),
-                Text("User Name", style: TextStyle(color: Colors.white,fontSize: 20) ),
+                Text("User Name",
+                    style: TextStyle(color: Colors.white, fontSize: 20)),
               ],
             ),
           ),

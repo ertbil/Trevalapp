@@ -26,6 +26,7 @@ class _CardsState extends State<Cards> {
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => PlaceDetail(place: widget.filteredPlaces[index],)));
             },
+
             child: Card(
               elevation: 5,
               child: Column(
@@ -35,8 +36,12 @@ class _CardsState extends State<Cards> {
 
                   ),
 
-                  Text(widget.filteredPlaces[index].name.trim(), style: const TextStyle(fontSize: 17,),textAlign: TextAlign.center),
-                  Text(widget.filteredPlaces[index].location, style: const TextStyle(fontSize: 15), textAlign: TextAlign.center,),
+                  Text(widget.filteredPlaces[index].name.trim(),
+                      style: const TextStyle(fontSize: 17,),
+                      textAlign: TextAlign.center),
+                  Text(widget.filteredPlaces[index].location,
+                    style: const TextStyle(fontSize: 15),
+                    textAlign: TextAlign.center,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

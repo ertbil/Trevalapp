@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 Image imageController(String image) {
-  if(image == "Image not found"){
+  if (image == "Image not found") {
     return const Image(image: AssetImage("assets/images/no_image.png"));
-  }
-  else {
+  } else {
     try {
       var image2 = Image.network(image);
       return image2;
@@ -13,5 +12,6 @@ Image imageController(String image) {
       return const Image(image: AssetImage("assets/images/no_image.png"));
     }
   }
-
 }
+
+class Deneme {}
